@@ -1,1 +1,2 @@
 add_executable(harmonic_oscillator harmonic_oscillator.cpp)
+add_executable(autodiff_odeint autodiff_odeint.cpp)
