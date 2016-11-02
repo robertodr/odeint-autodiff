@@ -2,6 +2,26 @@
 # see: http://autocmake.readthedocs.io/en/latest/developers/configuration.html
 # adapt the following lines and expand
 
-name: myproject
+name: odeint-autodiff
 
-min_cmake_version: 2.8
+min_cmake_version: 3.2
+
+url_root: https://github.com/coderefinery/autocmake/raw/master/
+
+modules:
+- compilers:
+  - source:
+    - '%(url_root)modules/cc.cmake'
+    - '%(url_root)modules/cxx.cmake'
+- flags:
+  - source:
+    - '%(url_root)compilers/GNU.CXX.cmake'
+    - '%(url_root)compilers/Intel.CXX.cmake'
+    - '%(url_root)compilers/Clang.CXX.cmake'
+- plugins:
+  - source:
+    - '%(url_root)modules/ccache.cmake'
+    - '%(url_root)modules/definitions.cmake'
+    - '%(url_root)modules/safeguards.cmake'
+    - '%(url_root)modules/default_build_paths.cmake'
+    - '%(url_root)modules/src.cmake'
