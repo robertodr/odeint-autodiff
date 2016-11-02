@@ -21,6 +21,7 @@ modules:
 - plugins:
   - source:
     - '%(url_root)modules/ccache.cmake'
+    - 'custom/external.cmake'
     - '%(url_root)modules/definitions.cmake'
     - '%(url_root)modules/safeguards.cmake'
     - '%(url_root)modules/default_build_paths.cmake'
