@@ -17,8 +17,8 @@ public:
   pendulum(double l, double g = 9.81) : length_(l), g_(g) {}
 
   void operator()(const T &theta, T &dtheta_dt, const double /* t */) {
-    dtheta_dt[0] = theta[1];
-    dtheta_dt[1] = -(g_ / length_) * theta[0];
+    dtheta_dt[0][0] = theta[0][1];
+    dtheta_dt[0][1] = -(g_ / length_) * theta[0][0];
   }
 };
 
@@ -49,8 +49,10 @@ int main() {
 
   //[ state_initialization
   state_type x(2);
-  x[0] = 1.0; // start at x=1.0, p=0.0
-  x[1] = 0.0;
+  x[0][0] = 1.0; // start at x=1.0, p=0.0
+  x[0][1] = 0.0; // start at x=1.0, p=0.0
+  x[1][0] = 0.0;
+  x[1][1] = 0.0;
   //]
 
   double length = 9.81;
@@ -58,13 +60,16 @@ int main() {
   pendulum_exact exact(9.81, 1.0);
 
   runge_kutta4< state_type> stepper;
-  integrate_const( stepper, approx, x , 0.0 , 10.0 , 0.01 );
 
-  std::cout << "x.size() " << x.size() << std::endl;
-
-  std::cout << exact.position(10.0) << "   " << exact.speed(10.0) << std::endl;
-  std::cout << x[0] << std::endl;
-  std::cout << x[1] << std::endl;
+  const double dt = 0.01;
+  const double tstart = 0.0;
+  const double tend = 1.0;
+  for( double t = tstart ; t < tend ; t += dt )
+  {
+    std::cout << t << "   " << std::setprecision(16) << exact.position(t) << "   " << std::setprecision(16) << exact.speed(t) << std::endl;
+    std::cout << t << "   " << std::setprecision(16) << x[0]  << "   " << std::setprecision(16) << x[1] << std::endl;
+    stepper.do_step( approx , x , t , dt );
+  }
 
   return 0;
 }
