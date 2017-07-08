@@ -55,20 +55,20 @@ int main() {
   x[1][1] = 0.0;
   //]
 
-  double length = 9.81;
-  pendulum<state_type> approx(9.81);
-  pendulum_exact exact(9.81, 1.0);
+  double length = 10.0;
+  pendulum<state_type> approx(length);
+  pendulum_exact exact(length, 1.0);
 
   runge_kutta4< state_type> stepper;
 
-  const double dt = 0.01;
+  const double dt = 0.1;
   const double tstart = 0.0;
   const double tend = 1.0;
   for( double t = tstart ; t < tend ; t += dt )
   {
     std::cout << t << "   " << std::setprecision(16) << exact.position(t) << "   " << std::setprecision(16) << exact.speed(t) << std::endl;
     std::cout << t << "   " << std::setprecision(16) << x[0]  << "   " << std::setprecision(16) << x[1] << std::endl;
-    stepper.do_step( approx , x , t , dt );
+    stepper.do_step(approx, x, t, dt);
   }
 
   return 0;
